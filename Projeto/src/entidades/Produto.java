@@ -6,7 +6,6 @@ public class Produto {
     private Integer quantidade;
     private Fornecedor fornecedor;
       
-    
     public Produto(){}
     
     public Produto(String descricao, Double preco, Integer quantidade, Fornecedor fornecedor){
@@ -27,7 +26,6 @@ public class Produto {
         this.descricao = descricao;
     }
     
-    
     // get e set Double preco
     public Double getPreco(){
         return preco;
@@ -36,7 +34,6 @@ public class Produto {
     public void setPreco(Double preco){
         this.preco = preco;
     }
-    
     
     // get e set Integer quantiadade
     public Integer getQuantidade(){
@@ -47,7 +44,6 @@ public class Produto {
         this.quantidade = quantidade;
     }
     
-    
     // get e set Fornecedor forecedor
     public Fornecedor getFornecedor(){
         return fornecedor;
@@ -55,5 +51,10 @@ public class Produto {
     
     public void setFornecedor(Fornecedor fornecedor){
         this.fornecedor = fornecedor;
+    }
+    
+    @Override
+    public String toString(){
+        return descricao;
     }
 }

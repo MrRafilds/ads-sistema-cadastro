@@ -2,7 +2,9 @@ package janelas;
 
 import entidades.Fornecedor;
 import entidades.Produto;
+import java.awt.event.ItemEvent;
 import java.util.LinkedList;
+import javax.swing.DefaultComboBoxModel;
 
 public class Principal extends javax.swing.JFrame {
     
@@ -47,6 +49,7 @@ public class Principal extends javax.swing.JFrame {
         btFornecedor.addActionListener(this::btFornecedorActionPerformed);
 
         comboProduto.addItemListener(this::comboProdutoItemStateChanged);
+        comboProduto.addActionListener(this::comboProdutoActionPerformed);
 
         jLabel2.setText("Descrição");
 
@@ -61,6 +64,8 @@ public class Principal extends javax.swing.JFrame {
 
         btSalvar.setText("Salvar");
         btSalvar.addActionListener(this::btSalvarActionPerformed);
+
+        comboFornecedor.addActionListener(this::comboFornecedorActionPerformed);
 
         descricao.addActionListener(this::descricaoActionPerformed);
 
@@ -129,7 +134,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(comboFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btNovo)
                     .addComponent(btSalvar))
                 .addGap(19, 19, 19))
@@ -140,6 +145,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void btFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFornecedorActionPerformed
         // TODO add your handling code here:
+        new CadastroForncecedor(listaFornecedores).setVisible(true);
+       comboFornecedor.setModel(new DefaultComboBoxModel(listaFornecedores.toArray()));
     }//GEN-LAST:event_btFornecedorActionPerformed
 
     private void btUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUsuarioActionPerformed
@@ -181,8 +188,29 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void comboProdutoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboProdutoItemStateChanged
-        
+        if(evt.getStateChange() == ItemEvent.SELECTED){
+            Produto produto = (Produto) comboProduto.getSelectedItem();
+            
+            descricao.setSelectedItem (produtoDescricao));
+            preco.setText(produto.getPreco().toString());
+            quantidade.setText(produto.getQuantidade().toString());
+            comboFornecedor.setSelectedItem(produto.getFornecedor());
+            
+            btSalvar.setEnabled(true);
+            btNovo.setEnabled(true);
+            
+            novo = false;
+           
+        }
     }//GEN-LAST:event_comboProdutoItemStateChanged
+
+    private void comboFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFornecedorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboFornecedorActionPerformed
+
+    private void comboProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboProdutoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboProdutoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -225,4 +253,14 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField<String> preco;
     private javax.swing.JTextField<String> quantidade;
     // End of variables declaration//GEN-END:variables
+
+    private static class CadastroForncecedor {
+
+        public CadastroForncecedor(LinkedList<Fornecedor> listaFornecedores) {
+        }
+
+        private void setVisible(boolean b) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+    }
 }

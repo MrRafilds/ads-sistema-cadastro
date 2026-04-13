@@ -4,11 +4,19 @@
  */
 package janelas;
 
+import entidades.Fornecedor;
+import java.awt.event.ItemEvent;
+import java.util.LinkedList;
+import javax.swing.DefaultComboBoxModel;
+
 /**
  *
  * @author nando
  */
 public class CadastroFornecedor extends javax.swing.JFrame {
+    
+    private LinkedList listaFornecedores;
+    private boolean novo = false;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CadastroFornecedor.class.getName());
 
@@ -17,6 +25,8 @@ public class CadastroFornecedor extends javax.swing.JFrame {
      */
     public CadastroFornecedor() {
         initComponents();
+        this.listaFornecedores = listaFornecedores;
+        comboFornecedor.setModel (new DefaultComboBoxModel (listaFornecedores.toArray()));
     }
 
     /**
@@ -49,21 +59,31 @@ public class CadastroFornecedor extends javax.swing.JFrame {
 
         jLabel4.setText("Telefone:");
 
+        nome.addActionListener(this::nomeActionPerformed);
+
         try {
             cpnj.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###.###/####-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        cpnj.addActionListener(this::cpnjActionPerformed);
 
         try {
             telefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) #####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        telefone.addActionListener(this::telefoneActionPerformed);
+
+        comboFornecedor.addItemListener(this::comboFornecedorItemStateChanged);
+        comboFornecedor.addActionListener(this::comboFornecedorActionPerformed);
 
         btSalvar.setText("Salvar");
+        btSalvar.addItemListener(this::btSalvarItemStateChanged);
+        btSalvar.addActionListener(this::btSalvarActionPerformed);
 
         btNovo.setText("Novo");
+        btNovo.addActionListener(this::btNovoActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,6 +136,71 @@ public class CadastroFornecedor extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void comboFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFornecedorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboFornecedorActionPerformed
+
+    private void nomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nomeActionPerformed
+
+    private void cpnjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpnjActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cpnjActionPerformed
+
+    private void telefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telefoneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_telefoneActionPerformed
+
+    private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
+        // TODO add your handling code here:
+        Fornecedor fornecedor = null;
+        
+        if(novo){
+            fornecedor = new Fornecedor();
+        } else {
+            fornecedor = (Fornecedor) comboFornecedor.getSelectedItem();
+        }
+        
+        fornecedor.setNome(nome.getText());
+        fornecedor.setCnpj(cnpj.getText());
+        fornecedor.setTelefone(telefone.getText());
+        
+        if(novo){
+            comboFornecedor.addItem(fornecedor);
+            listaFornecedores.add(fornecedor);
+        }
+        
+        btNovo.setEnabled(true);
+    }//GEN-LAST:event_btSalvarActionPerformed
+    
+    private void btNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNovoActionPerformed
+        // TODO add your handling code here:
+        novo = true;
+        btSalvar.setEnabled(true);
+        btNovo.setEnabled(false);
+    }//GEN-LAST:event_btNovoActionPerformed
+
+    private void btSalvarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_btSalvarItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btSalvarItemStateChanged
+
+    private void comboFornecedorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboFornecedorItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED){
+            Fornecedor fornecedor = (Fornecedor) comboFornecedor.getSelectedItem();
+            
+            nome.setText(fornecedor.getNome());
+            cnpj.setText(fornecedor.getCnpj());
+            telefone.setText(fornecedor.getTelefone());
+            
+            btSalvar.setEnabled(true);
+            btNovo.setEnabled(true);
+            
+            novo = false;
+        }
+    }//GEN-LAST:event_comboFornecedorItemStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -153,4 +238,18 @@ public class CadastroFornecedor extends javax.swing.JFrame {
     private javax.swing.JTextField nome;
     private javax.swing.JFormattedTextField telefone;
     // End of variables declaration//GEN-END:variables
+
+    private static class cnpj {
+
+        private static void setText(String cnpj) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        private static String getText() {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        public cnpj() {
+        }
+    }
 }
