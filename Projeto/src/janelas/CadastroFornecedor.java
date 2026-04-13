@@ -9,13 +9,11 @@ import java.awt.event.ItemEvent;
 import java.util.LinkedList;
 import javax.swing.DefaultComboBoxModel;
 
-/**
- *
- * @author nando
- */
+
 public class CadastroFornecedor extends javax.swing.JFrame {
     
-    private LinkedList listaFornecedores;
+    private LinkedList<Fornecedor> listaFornecedores;
+    
     private boolean novo = false;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CadastroFornecedor.class.getName());
@@ -23,9 +21,12 @@ public class CadastroFornecedor extends javax.swing.JFrame {
     /**
      * Creates new form CadastroFornecedor
      */
-    public CadastroFornecedor() {
+    public CadastroFornecedor(LinkedList<Fornecedor> lista) {
         initComponents();
-        this.listaFornecedores = listaFornecedores;
+        this.listaFornecedores = lista;
+        
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        
         comboFornecedor.setModel (new DefaultComboBoxModel (listaFornecedores.toArray()));
     }
 
@@ -43,7 +44,7 @@ public class CadastroFornecedor extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         nome = new javax.swing.JTextField();
-        cpnj = new javax.swing.JFormattedTextField();
+        cnpj = new javax.swing.JFormattedTextField();
         telefone = new javax.swing.JFormattedTextField();
         comboFornecedor = new javax.swing.JComboBox<>();
         btSalvar = new javax.swing.JButton();
@@ -62,11 +63,11 @@ public class CadastroFornecedor extends javax.swing.JFrame {
         nome.addActionListener(this::nomeActionPerformed);
 
         try {
-            cpnj.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###.###/####-##")));
+            cnpj.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###.###/####-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        cpnj.addActionListener(this::cpnjActionPerformed);
+        cnpj.addActionListener(this::cnpjActionPerformed);
 
         try {
             telefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) #####-####")));
@@ -102,7 +103,7 @@ public class CadastroFornecedor extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(comboFornecedor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(nome)
-                        .addComponent(cpnj, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                        .addComponent(cnpj, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                         .addComponent(telefone))
                     .addComponent(btSalvar))
                 .addContainerGap(133, Short.MAX_VALUE))
@@ -121,7 +122,7 @@ public class CadastroFornecedor extends javax.swing.JFrame {
                 .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(cpnj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -144,9 +145,9 @@ public class CadastroFornecedor extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_nomeActionPerformed
 
-    private void cpnjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpnjActionPerformed
+    private void cnpjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cnpjActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cpnjActionPerformed
+    }//GEN-LAST:event_cnpjActionPerformed
 
     private void telefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telefoneActionPerformed
         // TODO add your handling code here:
@@ -169,6 +170,7 @@ public class CadastroFornecedor extends javax.swing.JFrame {
         if(novo){
             comboFornecedor.addItem(fornecedor);
             listaFornecedores.add(fornecedor);
+            comboFornecedor.setSelectedItem(fornecedor);
         }
         
         btNovo.setEnabled(true);
@@ -177,6 +179,11 @@ public class CadastroFornecedor extends javax.swing.JFrame {
     private void btNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNovoActionPerformed
         // TODO add your handling code here:
         novo = true;
+
+        nome.setText("");
+        cnpj.setText("");
+        telefone.setText("");
+
         btSalvar.setEnabled(true);
         btNovo.setEnabled(false);
     }//GEN-LAST:event_btNovoActionPerformed
@@ -204,33 +211,17 @@ public class CadastroFornecedor extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new CadastroFornecedor().setVisible(true));
-    }
-
+    java.awt.EventQueue.invokeLater(() -> 
+        new CadastroFornecedor(new LinkedList<>()).setVisible(true)
+    );
+}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btNovo;
     private javax.swing.JButton btSalvar;
-    private javax.swing.JComboBox<String> comboFornecedor;
-    private javax.swing.JFormattedTextField cpnj;
+    private javax.swing.JFormattedTextField cnpj;
+    private javax.swing.JComboBox<Fornecedor> comboFornecedor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -239,17 +230,4 @@ public class CadastroFornecedor extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField telefone;
     // End of variables declaration//GEN-END:variables
 
-    private static class cnpj {
-
-        private static void setText(String cnpj) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-
-        private static String getText() {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-
-        public cnpj() {
-        }
-    }
 }

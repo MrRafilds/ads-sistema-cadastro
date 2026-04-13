@@ -11,10 +11,19 @@ public class Principal extends javax.swing.JFrame {
 //    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Principal.class.getName());
     
     private LinkedList<Fornecedor> listaFornecedores = new LinkedList<>();
+    private LinkedList<Produto> listaProdutos = new LinkedList<>();
     private boolean novo = false;
     
     public Principal() {
         initComponents();
+        
+        comboFornecedor.setModel(
+            new DefaultComboBoxModel(listaFornecedores.toArray())       
+        );
+        
+        comboProduto.setModel(
+            new DefaultComboBoxModel(listaProdutos.toArray())
+        );
     }
 
     /**
@@ -37,8 +46,8 @@ public class Principal extends javax.swing.JFrame {
         btSalvar = new javax.swing.JButton();
         comboFornecedor = new javax.swing.JComboBox<>();
         descricao = new javax.swing.JTextField();
-        preco = new javax.swing.JTextField<>();
-        quantidade = new javax.swing.JTextField<>();
+        preco = new javax.swing.JTextField();
+        quantidade = new javax.swing.JTextField();
         btUsuario = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -68,6 +77,8 @@ public class Principal extends javax.swing.JFrame {
         comboFornecedor.addActionListener(this::comboFornecedorActionPerformed);
 
         descricao.addActionListener(this::descricaoActionPerformed);
+
+        quantidade.addActionListener(this::quantidadeActionPerformed);
 
         btUsuario.setText("Cadastro Usuário");
         btUsuario.addActionListener(this::btUsuarioActionPerformed);
@@ -145,8 +156,17 @@ public class Principal extends javax.swing.JFrame {
 
     private void btFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFornecedorActionPerformed
         // TODO add your handling code here:
-        new CadastroForncecedor(listaFornecedores).setVisible(true);
-       comboFornecedor.setModel(new DefaultComboBoxModel(listaFornecedores.toArray()));
+        CadastroFornecedor tela = new CadastroFornecedor(listaFornecedores);
+        tela.setVisible(true);
+
+        tela.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                comboFornecedor.setModel(
+                    new DefaultComboBoxModel(listaFornecedores.toArray())
+                );
+            }
+        });
     }//GEN-LAST:event_btFornecedorActionPerformed
 
     private void btUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUsuarioActionPerformed
@@ -159,6 +179,12 @@ public class Principal extends javax.swing.JFrame {
 
     private void btNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNovoActionPerformed
         novo = true;
+        
+        descricao.setText("");
+        preco.setText("");
+        quantidade.setText("");
+        comboFornecedor.setSelectedItem(null);
+        
         btSalvar.setEnabled(true);
         btNovo.setEnabled(false);
     }//GEN-LAST:event_btNovoActionPerformed
@@ -173,25 +199,41 @@ public class Principal extends javax.swing.JFrame {
         }
         
         produto.setDescricao(descricao.getText());
-        produto.setPreco(Double.parseDouble(preco.getText()));
-        produto.setQuantidade(Integer.parseInt(quantidade.getText()));
+        
+        try {
+            produto.setPreco(Double.parseDouble(preco.getText()));
+            produto.setQuantidade(Integer.parseInt(quantidade.getText()));
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Digite valores válidos!");
+        return;
+        }
+        
+        if (comboFornecedor.getSelectedItem() == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Selecione um fornecedor!");
+        return;
+        }
+         
         produto.setFornecedor((Fornecedor)comboFornecedor.getSelectedItem());
         
         if (novo) {
-            
+            listaProdutos.add(produto);
             comboProduto.addItem(produto);
-            comboProduto.setSelectedItem(produto);
             
         }
         
+        comboProduto.setSelectedItem(produto);
+        
         btNovo.setEnabled(true);
+        novo = false;
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void comboProdutoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboProdutoItemStateChanged
         if(evt.getStateChange() == ItemEvent.SELECTED){
             Produto produto = (Produto) comboProduto.getSelectedItem();
             
-            descricao.setSelectedItem (produtoDescricao));
+             if (produto == null) return;
+            
+            descricao.setText(produto.getDescricao());
             preco.setText(produto.getPreco().toString());
             quantidade.setText(produto.getQuantidade().toString());
             comboFornecedor.setSelectedItem(produto.getFornecedor());
@@ -212,15 +254,15 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_comboProdutoActionPerformed
 
+    private void quantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantidadeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_quantidadeActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+       
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -228,8 +270,8 @@ public class Principal extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         //</editor-fold>
 
@@ -242,7 +284,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btNovo;
     private javax.swing.JButton btSalvar;
     private javax.swing.JButton btUsuario;
-    private javax.swing.JComboBox<String> comboFornecedor;
+    private javax.swing.JComboBox<Fornecedor> comboFornecedor;
     private javax.swing.JComboBox<Produto> comboProduto;
     private javax.swing.JTextField descricao;
     private javax.swing.JLabel jLabel1;
@@ -250,17 +292,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField<String> preco;
-    private javax.swing.JTextField<String> quantidade;
+    private javax.swing.JTextField preco;
+    private javax.swing.JTextField quantidade;
     // End of variables declaration//GEN-END:variables
 
-    private static class CadastroForncecedor {
-
-        public CadastroForncecedor(LinkedList<Fornecedor> listaFornecedores) {
-        }
-
-        private void setVisible(boolean b) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-    }
 }
