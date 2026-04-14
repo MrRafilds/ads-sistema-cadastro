@@ -12,7 +12,7 @@ public class Usuario {
     
     private String login;
     private String senha;
-    private String perfil;
+    private String nome;
 
     public Usuario() {}
 
@@ -22,12 +22,12 @@ public class Usuario {
     public String getSenha() { return senha; }
     public void setSenha(String senha) { this.senha = senha; }
 
-    public String getPerfil() { return perfil; }
-    public void setPerfil(String perfil) { this.perfil = perfil; }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
     @Override
     public String toString() {
-        return login + " - " + perfil;
+        return nome;
     }
     
 }

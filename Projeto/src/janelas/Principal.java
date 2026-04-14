@@ -2,6 +2,8 @@ package janelas;
 
 import entidades.Fornecedor;
 import entidades.Produto;
+import entidades.Cliente;
+import entidades.Usuario;
 import java.awt.event.ItemEvent;
 import java.util.LinkedList;
 import javax.swing.DefaultComboBoxModel;
@@ -12,6 +14,8 @@ public class Principal extends javax.swing.JFrame {
     
     private LinkedList<Fornecedor> listaFornecedores = new LinkedList<>();
     private LinkedList<Produto> listaProdutos = new LinkedList<>();
+    private LinkedList<Cliente> listaClientes = new LinkedList<>();
+    private LinkedList<Usuario> listaUsuarios = new LinkedList<>();
     private boolean novo = false;
     
     public Principal() {
@@ -49,6 +53,7 @@ public class Principal extends javax.swing.JFrame {
         preco = new javax.swing.JTextField();
         quantidade = new javax.swing.JTextField();
         btUsuario = new javax.swing.JButton();
+        btCliente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,6 +88,9 @@ public class Principal extends javax.swing.JFrame {
         btUsuario.setText("Cadastro Usuário");
         btUsuario.addActionListener(this::btUsuarioActionPerformed);
 
+        btCliente.setText("Cadastro Cliente");
+        btCliente.addActionListener(this::btClienteActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -92,30 +100,31 @@ public class Principal extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(51, 51, 51)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btFornecedor)
-                                .addGap(63, 63, 63)
-                                .addComponent(btUsuario))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel1))
-                                .addGap(48, 48, 48)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(comboProduto, 0, 115, Short.MAX_VALUE)
-                                    .addComponent(descricao)
-                                    .addComponent(preco)
-                                    .addComponent(quantidade)
-                                    .addComponent(comboFornecedor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel1))
+                        .addGap(48, 48, 48)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(comboProduto, 0, 115, Short.MAX_VALUE)
+                            .addComponent(descricao)
+                            .addComponent(preco)
+                            .addComponent(quantidade)
+                            .addComponent(comboFornecedor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(121, 121, 121)
                         .addComponent(btNovo)
                         .addGap(121, 121, 121)
-                        .addComponent(btSalvar)))
-                .addContainerGap(120, Short.MAX_VALUE))
+                        .addComponent(btSalvar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(btFornecedor)
+                        .addGap(18, 18, 18)
+                        .addComponent(btUsuario)
+                        .addGap(30, 30, 30)
+                        .addComponent(btCliente)))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,7 +132,8 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btFornecedor)
-                    .addComponent(btUsuario))
+                    .addComponent(btUsuario)
+                    .addComponent(btCliente))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -171,6 +181,14 @@ public class Principal extends javax.swing.JFrame {
 
     private void btUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUsuarioActionPerformed
         // TODO add your handling code here:
+        CadastroUsuario tela = new CadastroUsuario(listaUsuarios);
+        tela.setVisible(true);
+
+        tela.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+            }
+        });
     }//GEN-LAST:event_btUsuarioActionPerformed
 
     private void descricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descricaoActionPerformed
@@ -258,6 +276,12 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_quantidadeActionPerformed
 
+    private void btClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btClienteActionPerformed
+        // TODO add your handling code here:
+        CadastroCliente tela = new CadastroCliente(listaClientes);
+        tela.setVisible(true);
+    }//GEN-LAST:event_btClienteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -280,6 +304,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btCliente;
     private javax.swing.JButton btFornecedor;
     private javax.swing.JButton btNovo;
     private javax.swing.JButton btSalvar;
