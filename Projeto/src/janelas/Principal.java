@@ -56,6 +56,7 @@ public class Principal extends javax.swing.JFrame {
         btCliente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Cadastro Produto");
 
         jLabel1.setText("Produtos:");
 
