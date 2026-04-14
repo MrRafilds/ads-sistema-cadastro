@@ -1,7 +1,3 @@
-# sistema-cadastro-java
-
-Sistema desktop desenvolvido em Java para cadastro e gerenciamento de usuários, clientes, fornecedores e produtos.
-
 # 💻 Sistema de Cadastro
 
 Aplicação desktop desenvolvida em Java com o objetivo de gerenciar cadastros de usuários, clientes, fornecedores e produtos, utilizando interface gráfica com Swing.
