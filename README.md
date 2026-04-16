@@ -8,10 +8,6 @@ Aplicação desktop desenvolvida em Java com o objetivo de gerenciar cadastros d
 * João Pedro Dias de Faria
 * Rafael Bento Tieghi Sampaio
 
-## 🤝 Colaboradores
-
-* José Elias Muniz do Espirito Santo
-
 ## 🎓 Informações Acadêmicas
 
 * Faculdade: Fatec Botucatu
